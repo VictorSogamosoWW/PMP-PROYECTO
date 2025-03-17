@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Router, RequestHandler } from 'express';
 import uploadController from '../controllers/upload.controller';
 import multer from 'multer';
@@ -23,5 +24,15 @@ router.post('/', upload.single('file'), (req, res, next) => {
   console.log('Upload route hit');
   next();
 }, controladorCarga.uploadFile as RequestHandler);
+=======
+import {Router, RequestHandler} from 'express';
+import uploadController from '../controllers/upload.controller';
+import multer from 'multer';
+
+const router = Router();
+const upload = multer({dest: 'uploads/'});
+
+router.post('/', upload.single('file'), uploadController.uploadFile as RequestHandler);
+>>>>>>> 1238d59558643b1305fd11d6217fa0fc62254847
 
 export default router;
