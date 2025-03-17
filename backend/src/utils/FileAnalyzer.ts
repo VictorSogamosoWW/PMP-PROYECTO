@@ -1,23 +1,29 @@
 import * as fs from 'fs';
+import * as exceljs from 'exceljs';
 
-export function analyzeFile(filePath: string): void {
+export async function analyzeFile(filePath: string): Promise <void> {
     try{
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-
-        if (isPronosticosFile(fileContent)){
-            processPronosticosFile(filePath);
-        }else if (isBodegasFile(fileContent)){
-            processBodegasFile(filePath);
-        }else if (isRutasFile(fileContent)){
-            processRutasFile(filePath);
-        }else if (isInsumosFile(fileContent)){
-            processInsumosFile(filePath);
-        }else if (isVentasFile(fileContent)){
-            processVentasFile(filePath);
-        }else if (isCapacidadFile(fileContent)){
-            processCapacidadFile(filePath);
+        const workbook = new exceljs.Workbook();
+        await workbook.xlsx.readFile(filePath);
+        const worksheet = workbook.getWorksheet(1);
+        if (worksheet){
+            if (await isPronosticosFile(worksheet)){
+                processPronosticosFile(filePath);
+            }else if (isBodegasFile(fileContent)){
+                processBodegasFile(filePath);
+            }else if (isRutasFile(fileContent)){
+                processRutasFile(filePath);
+            }else if (isInsumosFile(fileContent)){
+                processInsumosFile(filePath);
+            }else if (await isVentasFile(worksheet)){
+                processVentasFile(filePath);
+            }else if (isCapacidadFile(fileContent)){
+                processCapacidadFile(filePath);
+            }else{
+                console.log('Tipo de archivo no reconocido: ', filePath);
+            }
         }else{
-            console.log('Tipo de archivo no reconocido: ', filePath);
+            console.log("No se encontro la hoja de calculo: ", filePath);
         }
     }catch (error){
         console.log('Error al analizar el archivo: ', error);
@@ -41,8 +47,17 @@ function isInsumosFile(fileContent: String): boolean {
     return fileContent.includes('Insumos');
 }
 
-function isVentasFile(fileContent: String): boolean {
-    return fileContent.includes('Ventas');
+async function isVentasFile(worksheet: exceljs.Worksheet): Promise <boolean> {
+    const firstRow = worksheet.getRow(1);
+    const ninthRow = worksheet.getRow(9);
+
+    if (firstRow.getCell(1).toString().includes('Reporte de ventas') &&
+    ninthRow.getCell(1).toString().includes('Producto') &&
+    ninthRow.getCell(2).toString().includes('Cantidad')) {
+    return true;
+  }
+
+  return false;
 }
 
 function isCapacidadFile(fileContent: String): boolean {
