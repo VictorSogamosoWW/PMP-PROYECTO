@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Express } from 'express-serve-static-core';
 import { analizarArchivo } from '../utils/FileAnalyzer';
 import { esArchivoValido } from '../utils/FileValidator';
 import * as path from 'path'; 

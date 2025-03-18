@@ -1,5 +1,4 @@
 import { Router, RequestHandler } from 'express';
-import uploadController from '../controllers/upload.controller';
 import multer from 'multer';
 import path from 'path';
 import UploadController from '../controllers/upload.controller';
