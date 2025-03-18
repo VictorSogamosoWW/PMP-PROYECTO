@@ -1,7 +1,8 @@
 import * as exceljs from 'exceljs';
-import { normalizarString } from './MayusAMinus';
+import { normalizarString } from '../MayusAMinus';
 
-export async function ProcesarArchivoExcel(filePath: string): Promise<void>{
+
+export async function procesarXLSX (filePath: string): Promise <void>{
     try{
         const workbook = new exceljs.Workbook();
         await workbook.xlsx.readFile(filePath);
