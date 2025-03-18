@@ -17,7 +17,7 @@ export function tipoArchivo(filePath: string): string {
 }
 
 export function esArchivoValido(filePath: string): boolean {
-  const extensionesPermitidas = ['.xlsx', '.xls', '.csv', '.txt', '.ods'];
+  const extensionesPermitidas = ['.xlsx', '.xls', '.xlsm', '.csv', '.txt', '.ods'];
   const extension = path.extname(filePath).toLocaleLowerCase();
   // Agregamos logs para inspeccionar la extensión y las extensiones permitidas
   console.log('Extension:', extension);
