@@ -1,4 +1,3 @@
-// model/dao/bodegaDAO.ts
 import db from '../model/schema';
 
 const BodegaDAO = {
