@@ -96,6 +96,27 @@ function processInsumosFileXls(worksheet: any[][]): void {
 
 function processVentasFileXls(worksheet: any[][]): void {
     // Lógica de procesamiento de ventas .xls
+    try {
+        const columnasInteres = [
+            'C', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Y', 'Z'
+        ];
+
+        const indicesColumnas = columnasInteres.map(columna => columna.charCodeAt(0) - 'A'.charCodeAt(0));
+
+        for (let rowIndex = 3; rowIndex < 10/*worksheet.length*/; rowIndex++){
+            const row = worksheet[rowIndex];
+            const datosFila: {[key: string]: any} = {}
+
+            indicesColumnas.forEach((indiceColumna, index)=>{
+                const nombreColumna = columnasInteres[index];
+                datosFila[nombreColumna] = row[indiceColumna];
+            });
+
+            console.log(datosFila);
+        }
+    } catch (error) {
+        console.error("Error al procesar el archivo de ventas.xls: ", error);
+    }
     console.log('Procesando ventas .xls');
     // Llamado de ETL
 }
