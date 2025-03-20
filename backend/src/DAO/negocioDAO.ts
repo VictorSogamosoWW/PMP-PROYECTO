@@ -1,3 +1,4 @@
+import { negocioRow } from '../model/interfaces/negocio';
 import db from '../model/schema';
 
 const NegocioDAO = {
@@ -6,6 +7,19 @@ const NegocioDAO = {
     },
     getById: (id: number, callback: (err: Error | null, row: any) => void) => {
         db.get('SELECT * FROM Negocio WHERE id = ?', [id], callback);
+    },
+    getIdByName: (nombreNegocio: string, callback: (err: Error | null, idPais: number | null)=> void)=>{
+        db.get('SELECT id FROM Negocio WHERE nombre = ?', [nombreNegocio], (err, row: negocioRow) => {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            if (row) {
+                callback(null, row.id);
+            } else {
+                callback(null, null); 
+            }
+        });
     },
     create: (negocio: any, callback: (err: Error | null) => void) => {
         db.run(

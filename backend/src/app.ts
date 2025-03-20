@@ -1,6 +1,7 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 import routes from './routes/upload.routes';
+import db from './model/schema';
 
 class App {
     public app: Application;

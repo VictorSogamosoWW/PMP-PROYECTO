@@ -1,4 +1,4 @@
-// model/dao/paisDAO.ts
+import { paisRow } from '../model/interfaces/pais';
 import db from '../model/schema';
 
 const PaisDAO = {
@@ -7,6 +7,22 @@ const PaisDAO = {
     },
     getById: (id: number, callback: (err: Error | null, row: any) => void) => {
         db.get('SELECT * FROM Pais WHERE id = ?', [id], callback);
+    },
+    getByName: (nombrePais: string, callback: (err: Error | null, row: any)=>void)=>{
+        db.get('SELECT * FROM Pais WHERE nombre = ?',[nombrePais], callback);
+    },
+    getIdByName: (nombrePais: string, callback: (err: Error | null, idPais: number | null)=> void)=>{
+        db.get('SELECT id FROM Pais WHERE nombre = ?', [nombrePais], (err, row: paisRow) => {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            if (row) {
+                callback(null, row.id);
+            } else {
+                callback(null, null); 
+            }
+        });
     },
     create: (pais: any, callback: (err: Error | null) => void) => {
         db.run(
